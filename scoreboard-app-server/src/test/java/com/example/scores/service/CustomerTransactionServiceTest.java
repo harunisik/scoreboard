@@ -74,7 +74,7 @@ class CustomerTransactionServiceTest {
     }
 
     @Test
-    public void shouldGetScoreById() throws Exception {
+    public void shouldGetScoreById() {
 
         Score score = buildScore();
         ScoreResponse scoreResponse = buildScoreResponse(SCORE_A, SCORE_B);
@@ -82,9 +82,7 @@ class CustomerTransactionServiceTest {
         when(scoreRepository.findById(SCORE_ID)).thenReturn(Optional.of(score));
         when(scoreMapper.toScoreResponse(score)).thenReturn((scoreResponse));
 
-        Optional<ScoreResponse> scoreResponseOpt = unit.getScoreById(SCORE_ID);
-
-        ScoreResponse result = scoreResponseOpt.get();
+        ScoreResponse result = unit.getScoreById(SCORE_ID);
 
         verify(scoreRepository).findById(SCORE_ID);
         verify(scoreMapper).toScoreResponse(score);
@@ -97,7 +95,7 @@ class CustomerTransactionServiceTest {
     }
 
     @Test
-    public void shouldThrowException_getScoreById() {
+    public void shouldThrowException_getScoreById_whenScoreNotFound() {
 
         ScoreBoardException exceptionThrown = assertThrows(ScoreBoardException.class,
             () -> unit.getScoreById(SCORE_ID));
@@ -133,7 +131,7 @@ class CustomerTransactionServiceTest {
     }
 
     @Test
-    public void shouldUpdateScore() throws Exception {
+    public void shouldUpdateScore() {
 
         Score score = buildScore();
         ScoreUpdateRequest scoreUpdateRequest = buildScoreUpdateRequest();
@@ -156,7 +154,7 @@ class CustomerTransactionServiceTest {
     }
 
     @Test
-    public void shouldThrowException_updateScore() {
+    public void shouldThrowException_updateScore_whenScoreNotFound() {
 
         ScoreBoardException exceptionThrown = assertThrows(ScoreBoardException.class,
             () -> unit.updateScore(SCORE_ID, buildScoreUpdateRequest()));

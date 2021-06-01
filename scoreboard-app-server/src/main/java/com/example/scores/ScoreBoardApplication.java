@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 /**
- * Created by rajeevkumarsingh on 20/11/17.
+ * Created by Harun Isik on 31/05/21.
  */
 
 @SpringBootApplication

@@ -19,7 +19,6 @@ import static com.example.scores.exception.ExceptionType.SCORE_NOT_FOUND;
 import static com.example.scores.util.JsonUtils.objectToJson;
 import static java.lang.String.format;
 import static java.util.Collections.singletonList;
-import static java.util.Optional.of;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
@@ -92,7 +91,7 @@ public class CustomerAccountControllerTest {
     @Test
     public void shouldGetScoreById() throws Exception {
 
-        when(scoreService.getScoreById(SCORE_ID)).thenReturn(of(buildScoreResponse(SCORE_A, SCORE_B)));
+        when(scoreService.getScoreById(SCORE_ID)).thenReturn(buildScoreResponse(SCORE_A, SCORE_B));
 
         mockMvc.perform(get(GET_SCORE_BY_ID_URL, "1"))
             .andExpect(status().isOk())

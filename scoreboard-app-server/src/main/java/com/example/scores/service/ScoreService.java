@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by rajeevkumarsingh on 20/11/17.
+ * Created by Harun Isik on 31/05/21.
  */
 
 @Service
@@ -35,8 +35,10 @@ public class ScoreService {
 
     @Transactional
     public List<ScoreResponse> getAllScores() {
+        logger.info("getting all scores from the db...");
 
         List<Score> scoreList = scoreRepository.findAll();
+        logger.info("{} score(s) found in the db", scoreList.size());
 
         return scoreList.stream()
             .map(scoreMapper::toScoreResponse)
@@ -44,33 +46,42 @@ public class ScoreService {
     }
 
     @Transactional
-    public Optional<ScoreResponse> getScoreById(Long id) throws Exception {
+    public ScoreResponse getScoreById(Long id) {
+        logger.info("getting score with id {}...", id);
 
         Optional<Score> score = scoreRepository.findById(id);
 
         if (score.isPresent()) {
-            ScoreResponse scoreResponse = scoreMapper.toScoreResponse(score.get());
-            return Optional.of(scoreResponse);
+            logger.info("score found with id {}", id);
+            return scoreMapper.toScoreResponse(score.get());
         }
 
+        logger.info("score not found with id {}", id);
         throw new ScoreBoardException(SCORE_NOT_FOUND);
     }
 
     @Transactional
     public ScoreResponse createScore(ScoreCreateRequest scoreCreateRequest) {
+        logger.info("creating a new score with the info {}...", scoreCreateRequest);
+
         Score score = scoreMapper.toScore(scoreCreateRequest);
         scoreRepository.save(score);
+        logger.info("score created successfully with id {}", score.getId());
         return scoreMapper.toScoreResponse(score);
     }
 
     @Transactional
-    public ScoreResponse updateScore(Long id, ScoreUpdateRequest scoreUpdateRequest) throws Exception {
+    public ScoreResponse updateScore(Long id, ScoreUpdateRequest scoreUpdateRequest) {
+        logger.info("updating score with id {} and info {}...", id, scoreUpdateRequest);
+
         Optional<Score> scoreOpt = scoreRepository.findById(id);
         if (scoreOpt.isPresent()) {
+            logger.info("score found with id {}", id);
             Score score = scoreOpt.get();
             score.setScoreA(scoreUpdateRequest.getScoreA());
             score.setScoreB(scoreUpdateRequest.getScoreB());
             scoreRepository.save(score);
+            logger.info("score updated successfully with id {}", id);
             return scoreMapper.toScoreResponse(score);
         }
 

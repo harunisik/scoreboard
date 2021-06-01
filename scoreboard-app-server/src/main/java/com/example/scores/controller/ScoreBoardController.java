@@ -12,7 +12,6 @@ import com.example.scores.dto.ScoreResponse;
 import com.example.scores.dto.ScoreUpdateRequest;
 import com.example.scores.service.ScoreService;
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +52,8 @@ public class ScoreBoardController {
     @GetMapping(GET_SCORE_BY_ID_URL)
     public ResponseEntity<ScoreResponse> getScoreById(@Valid @PathVariable(value = "id") String id) throws Exception {
         logger.info("get score by id called.");
-        Optional<ScoreResponse> scoreResponseOpt = scoreService.getScoreById(Long.parseLong(id));
-        return ResponseEntity.ok().body(scoreResponseOpt.orElse(null));
+        ScoreResponse scoreResponse = scoreService.getScoreById(Long.parseLong(id));
+        return ResponseEntity.ok().body(scoreResponse);
     }
 
     @PostMapping(CREATE_SCORE_URL)
@@ -68,7 +67,7 @@ public class ScoreBoardController {
     public ResponseEntity<ScoreResponse> updateScore(
         @Valid @PathVariable(value = "id") String id,
         @Valid @RequestBody ScoreUpdateRequest scoreUpdateRequest) throws Exception {
-        logger.info("create score called.");
+        logger.info("update score called.");
 
         ScoreResponse scoreResponse = scoreService.updateScore(Long.parseLong(id), scoreUpdateRequest);
         return ResponseEntity.ok().body(scoreResponse);

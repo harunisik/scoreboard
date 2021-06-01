@@ -8,7 +8,7 @@ import com.example.scores.model.Score;
 import org.mapstruct.Mapper;
 
 /**
- * Created by rajeevkumarsingh on 20/11/17.
+ * Created by Harun Isik on 31/05/21.
  */
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = IGNORE)
